@@ -1,0 +1,52 @@
+class Quiz:
+    def __init__(self):
+        self.questions = []
+        self.score = 0
+
+    def add_question(self, question, options, correct_answer):
+        """
+        Adds a new question to the quiz.
+        :param question: The question text.
+        :param options: A list of answer options.
+        :param correct_answer: The index of the correct option (0-based).
+        """
+        self.questions.append({
+            'question': question,
+            'options': options,
+            'correct_answer': correct_answer
+        })
+
+    def run_quiz(self):
+        """
+        Runs the quiz, asking all questions one by one.
+        """
+        for i, question_data in enumerate(self.questions):
+            print(f"Question {i + 1}: {question_data['question']}")
+            for idx, option in enumerate(question_data['options']):
+                print(f"{idx + 1}. {option}")
+            
+            # Get the user's answer
+            try:
+                user_answer = int(input("Your answer (1-4): ")) - 1
+                if user_answer == question_data['correct_answer']:
+                    print("Correct!")
+                    self.score += 1
+                else:
+                    print(f"Wrong! The correct answer is {question_data['options'][question_data['correct_answer']]}.")
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+
+        self.show_score()
+
+    def show_score(self):
+        print(f"\nYou scored {self.score} out of {len(self.questions)}.")
+
+# Create a quiz instance
+quiz = Quiz()
+
+# Example of adding questions dynamically
+quiz.add_question("What is the capital of France?", ["Berlin", "Madrid", "Paris", "Rome"], 2)
+quiz.add_question("Which planet is known as the Red Planet?", ["Earth", "Mars", "Jupiter", "Saturn"], 1)
+
+# Run the quiz
+quiz.run_quiz()
